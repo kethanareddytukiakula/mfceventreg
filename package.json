@@ -3,11 +3,11 @@
   "private": true,
   "version": "0.0.1",
   "type": "module",
-  "scripts": {
-    "dev": "npx vite",
-    "build": "npx vite build",
-    "preview": "npx vite preview"
-  },
+"scripts": {
+  "build": "vite build",
+  "dev": "vite"
+}
+,
   "dependencies": {
     "lucide-react": "^0.563.0",
     "motion": "^12.33.0",
