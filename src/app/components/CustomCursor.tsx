@@ -1,74 +1,93 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { motion } from 'motion/react';
 
+interface TrailPiece {
+  id: number;
+  x: number;
+  y: number;
+  color?: string;
+}
+
 export function CustomCursor() {
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [mouse, setMouse] = useState({ x: 0, y: 0 });
+  const [isTouch, setIsTouch] = useState(false);
   const [isHovering, setIsHovering] = useState(false);
+  const [trail, setTrail] = useState<TrailPiece[]>([]);
+  const idRef = useRef(1);
+  const lastRef = useRef(0);
 
   useEffect(() => {
-    const updateMousePosition = (e: MouseEvent) => {
-      setMousePosition({ x: e.clientX, y: e.clientY });
+    // Detect touch-capable devices and disable the custom cursor/trail
+    const touchSupported = ('ontouchstart' in window) || (navigator.maxTouchPoints && navigator.maxTouchPoints > 0);
+    setIsTouch(Boolean(touchSupported));
+
+    if (touchSupported) return;
+
+    const move = (e: MouseEvent) => {
+      setMouse({ x: e.clientX, y: e.clientY });
+
+      // throttle trail pieces to ~30-40fps
+      const now = Date.now();
+      if (now - lastRef.current < 25) return;
+      lastRef.current = now;
+
+      const id = idRef.current++;
+      const piece: TrailPiece = {
+        id,
+        x: e.clientX,
+        y: e.clientY,
+        color: undefined,
+      };
+
+      setTrail((prev) => {
+        const next = [...prev, piece];
+        // keep trail length bounded
+        if (next.length > 30) next.shift();
+        return next;
+      });
+
+      // remove after short life
+      setTimeout(() => {
+        setTrail((prev) => prev.filter(p => p.id !== id));
+      }, 520);
     };
 
-    const handleMouseOver = (e: MouseEvent) => {
-      const target = e.target as HTMLElement;
-      if (
-        target.tagName === 'BUTTON' ||
-        target.tagName === 'A' ||
-        target.classList.contains('cursor-pointer') ||
-        target.closest('button') ||
-        target.closest('a')
-      ) {
-        setIsHovering(true);
-      } else {
-        setIsHovering(false);
-      }
+    const over = (e: MouseEvent) => {
+      const t = e.target as HTMLElement;
+      if (t && (t.closest('button') || t.closest('a') || t.classList.contains('cursor-pointer'))) setIsHovering(true);
+      else setIsHovering(false);
     };
 
-    window.addEventListener('mousemove', updateMousePosition);
-    window.addEventListener('mouseover', handleMouseOver);
-
+    window.addEventListener('mousemove', move);
+    window.addEventListener('mouseover', over);
     return () => {
-      window.removeEventListener('mousemove', updateMousePosition);
-      window.removeEventListener('mouseover', handleMouseOver);
+      window.removeEventListener('mousemove', move);
+      window.removeEventListener('mouseover', over);
     };
   }, []);
 
+  if (isTouch) return null;
+
   return (
     <>
-      {/* Main cursor dot */}
+      {/* Pixel trail pieces */}
+      {trail.map((t) => (
+        <motion.div
+          key={t.id}
+          className="pixel-trail"
+          style={{ x: t.x - 3, y: t.y - 3 }}
+          initial={{ opacity: 1, scale: 1 }}
+          animate={{ opacity: 0, scale: 0.6 }}
+          transition={{ duration: 0.52, ease: 'easeOut' }}
+        />
+      ))}
+
+      {/* Pixel square cursor */}
       <motion.div
-        className="fixed top-0 left-0 w-2 h-2 bg-purple-600 rounded-full pointer-events-none z-[9999] mix-blend-difference"
-        style={{
-          x: mousePosition.x - 4,
-          y: mousePosition.y - 4,
-        }}
-        animate={{
-          scale: isHovering ? 2 : 1,
-        }}
-        transition={{
-          type: "spring",
-          stiffness: 500,
-          damping: 28,
-        }}
-      />
-      
-      {/* Cursor ring */}
-      <motion.div
-        className="fixed top-0 left-0 w-8 h-8 border-2 border-purple-400 rounded-full pointer-events-none z-[9999] mix-blend-difference"
-        style={{
-          x: mousePosition.x - 16,
-          y: mousePosition.y - 16,
-        }}
-        animate={{
-          scale: isHovering ? 1.5 : 1,
-          opacity: isHovering ? 0.8 : 0.5,
-        }}
-        transition={{
-          type: "spring",
-          stiffness: 300,
-          damping: 20,
-        }}
+        className="fixed top-0 left-0 w-4 h-4 pointer-events-none z-[9999] bg-[var(--accent)] shadow-[0_0_8px_var(--accent)]"
+        style={{ x: mouse.x - 8, y: mouse.y - 8 }}
+        animate={{ scale: isHovering ? 1.4 : 1 }}
+        transition={{ type: 'spring', stiffness: 800, damping: 40 }}
       />
     </>
   );

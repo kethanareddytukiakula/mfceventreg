@@ -35,7 +35,7 @@ export function SuccessModal({ isOpen, onClose }: SuccessModalProps) {
 
           {/* Modal */}
           <motion.div
-            className="relative bg-white rounded-2xl shadow-2xl max-w-md w-full p-8 overflow-hidden"
+            className="relative bg-gradient-to-br from-gray-900 to-black rounded-2xl shadow-2xl max-w-md w-full p-8 overflow-hidden border border-orange-600/30"
             initial={{ opacity: 0, scale: 0.8, y: 50 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.8, y: 50 }}
@@ -43,7 +43,7 @@ export function SuccessModal({ isOpen, onClose }: SuccessModalProps) {
           >
             {/* Animated Background Gradient */}
             <motion.div
-              className="absolute inset-0 bg-gradient-to-br from-purple-100 via-indigo-100 to-purple-100 opacity-50"
+              className="absolute inset-0 bg-gradient-to-br from-orange-600/10 via-transparent to-black/20 opacity-50"
               animate={{
                 backgroundPosition: ['0% 0%', '100% 100%'],
               }}
@@ -53,7 +53,7 @@ export function SuccessModal({ isOpen, onClose }: SuccessModalProps) {
             {/* Close Button */}
             <motion.button
               onClick={onClose}
-              className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-colors z-10"
+              className="absolute top-4 right-4 text-gray-500 hover:text-orange-400 transition-colors z-10"
               whileHover={{ scale: 1.1, rotate: 90 }}
               whileTap={{ scale: 0.9 }}
             >
@@ -99,24 +99,24 @@ export function SuccessModal({ isOpen, onClose }: SuccessModalProps) {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4 }}
             >
-              <h3 className="text-2xl mb-3 text-gray-900">Registration Successful!</h3>
-              <p className="text-gray-600 mb-6">
-                Thank you for registering for the Annual Tech Summit 2026. 
+              <h3 className="text-2xl mb-3 text-white font-semibold">Registration Successful!</h3>
+              <p className="text-gray-400 mb-6">
+                Thank you for registering for the Mozilla Firefox Developer Summit 2026. 
                 A confirmation email has been sent to your email address with all the event details.
               </p>
 
               {/* Additional Info */}
               <motion.div
-                className="bg-gradient-to-br from-purple-50 to-indigo-50 rounded-lg p-4 mb-6 text-left border border-purple-200"
+                className="bg-gradient-to-br from-orange-500/10 to-transparent rounded-lg p-4 mb-6 text-left border border-orange-600/30"
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.6 }}
               >
-                <h4 className="text-sm text-purple-900 mb-2 flex items-center gap-2">
+                <h4 className="text-sm text-orange-300 mb-2 flex items-center gap-2 font-semibold">
                   <Sparkles className="size-4" />
                   What's Next?
                 </h4>
-                <ul className="text-sm text-purple-800 space-y-1">
+                <ul className="text-sm text-gray-400 space-y-1">
                   {[
                     'Check your email for the confirmation',
                     'Add the event to your calendar',
@@ -128,8 +128,9 @@ export function SuccessModal({ isOpen, onClose }: SuccessModalProps) {
                       initial={{ opacity: 0, x: -10 }}
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ delay: 0.7 + index * 0.1 }}
+                      className="hover:text-orange-300 transition-colors"
                     >
-                      • {item}
+                      ✓ {item}
                     </motion.li>
                   ))}
                 </ul>
@@ -138,8 +139,8 @@ export function SuccessModal({ isOpen, onClose }: SuccessModalProps) {
               {/* Close Button */}
               <motion.button
                 onClick={onClose}
-                className="w-full bg-gradient-to-r from-purple-700 to-indigo-700 text-white py-3 rounded-lg hover:from-purple-800 hover:to-indigo-800 transition-all shadow-lg"
-                whileHover={{ scale: 1.02, boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.2)' }}
+                className="w-full bg-gradient-to-r from-yellow-400 to-orange-500 text-black py-3 rounded-lg hover:from-yellow-300 hover:to-orange-600 transition-all shadow-lg font-semibold"
+                whileHover={{ scale: 1.02, boxShadow: '0 20px 25px -5px rgba(255, 140, 0, 0.4)' }}
                 whileTap={{ scale: 0.98 }}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}

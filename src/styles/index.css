@@ -2,11 +2,11 @@
 @import './tailwind.css';
 @import './theme.css';
 
-/* Custom cursor styles */
-* {
-  cursor: none !important;
+/* Custom cursor styles: hide native cursor only on devices that support hover */
+@media (hover: hover) and (pointer: fine) {
+  * { cursor: none !important; }
+  button, a, input, select, textarea { cursor: none !important; }
 }
 
-button, a, input, select, textarea {
-  cursor: none !important;
-}
+/* Retro body background fallback */
+body { background-color: var(--background); }

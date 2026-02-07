@@ -10,8 +10,21 @@ export function Footer() {
   ];
 
   return (
-    <footer className="bg-gradient-to-br from-gray-900 via-purple-950 to-indigo-950 text-gray-300">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <footer className="bg-gradient-to-t from-black via-gray-900 to-black text-gray-300 border-t border-orange-600/20 relative overflow-hidden">
+      {/* Background decoration */}
+      <motion.div
+        className="absolute inset-0 bg-gradient-to-r from-orange-600/5 to-transparent opacity-30"
+        animate={{
+          x: ['-100%', '100%'],
+        }}
+        transition={{
+          duration: 20,
+          repeat: Infinity,
+          ease: 'linear'
+        }}
+      />
+      
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* About */}
           <motion.div
@@ -20,21 +33,22 @@ export function Footer() {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <h3 className="text-white text-lg mb-4">About Tech Club</h3>
-            <p className="text-sm text-gray-400 mb-4">
-              Join us for innovative tech events, workshops, and networking opportunities. 
-              Building the future, one event at a time.
+            <h3 className="text-transparent bg-clip-text bg-gradient-to-r from-orange-300 to-yellow-300 text-lg mb-4 font-semibold">About Mozilla Firefox India</h3>
+            <p className="text-sm text-gray-400 mb-4 leading-relaxed">
+              Join us for innovative web development events, workshops, and networking opportunities in India. 
+              Building the future of the web for Indian developers, one event at a time.
             </p>
             <div className="flex space-x-4">
               {socialLinks.map(({ Icon, href, label }, index) => (
                 <motion.a
                   key={label}
                   href={href}
-                  className="hover:text-purple-400 transition-colors"
+                  className="text-gray-400 hover:text-orange-400 transition-colors p-2 rounded-lg hover:bg-orange-500/10"
                   whileHover={{ scale: 1.2, rotate: 5 }}
                   initial={{ opacity: 0, scale: 0 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ delay: index * 0.1 }}
+                  title={label}
                 >
                   <Icon className="size-5" />
                 </motion.a>
@@ -49,7 +63,7 @@ export function Footer() {
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
-            <h3 className="text-white text-lg mb-4">Quick Links</h3>
+            <h3 className="text-transparent bg-clip-text bg-gradient-to-r from-orange-300 to-yellow-300 text-lg mb-4 font-semibold">Quick Links</h3>
             <ul className="space-y-2 text-sm">
               {[
                 { href: '#event-details', text: 'Event Details' },
@@ -66,7 +80,7 @@ export function Footer() {
                 >
                   <motion.a
                     href={link.href}
-                    className="hover:text-purple-400 transition-colors inline-block"
+                    className="text-gray-400 hover:text-orange-300 transition-colors inline-block"
                     whileHover={{ x: 5 }}
                   >
                     {link.text}
@@ -83,28 +97,28 @@ export function Footer() {
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.4 }}
           >
-            <h3 className="text-white text-lg mb-4">Contact Info</h3>
+            <h3 className="text-transparent bg-clip-text bg-gradient-to-r from-orange-300 to-yellow-300 text-lg mb-4 font-semibold">Contact Info</h3>
             <ul className="space-y-3 text-sm">
               <motion.li 
-                className="flex items-start space-x-3"
+                className="flex items-start space-x-3 text-gray-400 hover:text-orange-300 transition-colors"
                 whileHover={{ x: 5 }}
               >
-                <MapPin className="size-5 text-purple-400 flex-shrink-0 mt-0.5" />
-                <span>123 Tech Street, Innovation City, TC 12345</span>
+                <MapPin className="size-5 text-orange-400 flex-shrink-0 mt-0.5" />
+                <span>Bangalore Convention Centre, Whitefield, Bangalore, Karnataka 560066</span>
               </motion.li>
               <motion.li 
-                className="flex items-center space-x-3"
+                className="flex items-center space-x-3 text-gray-400 hover:text-orange-300 transition-colors"
                 whileHover={{ x: 5 }}
               >
-                <Phone className="size-5 text-purple-400 flex-shrink-0" />
-                <span>(555) 123-4567</span>
+                <Phone className="size-5 text-orange-400 flex-shrink-0" />
+                <span>+91 80 1234 5678</span>
               </motion.li>
               <motion.li 
-                className="flex items-center space-x-3"
+                className="flex items-center space-x-3 text-gray-400 hover:text-orange-300 transition-colors"
                 whileHover={{ x: 5 }}
               >
-                <Mail className="size-5 text-purple-400 flex-shrink-0" />
-                <span>events@techclub.com</span>
+                <Mail className="size-5 text-orange-400 flex-shrink-0" />
+                <span>events@mozilla-firefox-india.dev</span>
               </motion.li>
             </ul>
           </motion.div>
@@ -112,13 +126,13 @@ export function Footer() {
 
         {/* Bottom Bar */}
         <motion.div
-          className="border-t border-gray-800 mt-8 pt-8 text-sm text-center text-gray-400"
+          className="border-t border-orange-600/20 mt-12 pt-8 text-sm text-center text-gray-400"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.6 }}
         >
-          <p>&copy; {new Date().getFullYear()} Tech Club. All rights reserved.</p>
+          <p className="text-gray-500">© {new Date().getFullYear()} Mozilla Firefox Developer Events India. All rights reserved.</p>
         </motion.div>
       </div>
     </footer>
